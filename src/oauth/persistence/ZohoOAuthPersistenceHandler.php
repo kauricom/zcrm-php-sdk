@@ -13,11 +13,13 @@ class ZohoOAuthPersistenceHandler implements ZohoOAuthPersistenceInterface
     
     public function saveOAuthData($zohoOAuthTokens)
     {
+        var_dump($oAuthTokens);
+
         $db_link = null;
         try {
             self::deleteOAuthTokens($zohoOAuthTokens->getUserEmailId());
             $db_link = self::getMysqlConnection();
-            $query = "INSERT INTO oauthtokens(useridentifier,accesstoken,refreshtoken,expirytime) VALUES('" . $zohoOAuthTokens->getUserEmailId() . "','" . $zohoOAuthTokens->getAccessToken() . "','" . $zohoOAuthTokens->getRefreshToken() . "'," . $zohoOAuthTokens->getExpiryTime() . ")";
+            $query = "INSERT INTO oauthtokens(user_mail, access_token, refresh_token, expiry_time) VALUES('" . $zohoOAuthTokens->getUserEmailId() . "','" . $zohoOAuthTokens->getAccessToken() . "','" . $zohoOAuthTokens->getRefreshToken() . "'," . $zohoOAuthTokens->getExpiryTime() . ")";
             
             $result = mysqli_query($db_link, $query);
             if (! $result) {
@@ -38,7 +40,7 @@ class ZohoOAuthPersistenceHandler implements ZohoOAuthPersistenceInterface
         $oAuthTokens = new ZohoOAuthTokens();
         try {
             $db_link = self::getMysqlConnection();
-            $query = "SELECT * FROM oauthtokens where useridentifier='" . $userEmailId . "'";
+            $query = "SELECT * FROM oauthtokens where user_mail='" . $userEmailId . "'";
             $resultSet = mysqli_query($db_link, $query);
             if (! $resultSet) {
                 Logger::severe("Getting result set failed: (" . $db_link->errno . ") " . $db_link->error);
@@ -67,7 +69,7 @@ class ZohoOAuthPersistenceHandler implements ZohoOAuthPersistenceInterface
         $db_link = null;
         try {
             $db_link = self::getMysqlConnection();
-            $query = "DELETE FROM oauthtokens where useridentifier='" . $userEmailId . "'";
+            $query = "DELETE FROM oauthtokens where user_mail='" . $userEmailId . "'";
             $resultSet = mysqli_query($db_link, $query);
             if (! $resultSet) {
                 Logger::severe("Deleting  oauthtokens failed: (" . $db_link->errno . ") " . $db_link->error);

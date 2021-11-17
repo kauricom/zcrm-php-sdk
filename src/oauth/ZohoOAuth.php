@@ -54,6 +54,7 @@ class ZohoOAuth
             ZohoOAuthConstants::DATABASE_PORT,
             ZohoOAuthConstants::DATABASE_PASSWORD,
             ZohoOAuthConstants::DATABASE_USERNAME,
+            ZohoOAuthConstants::DATABASE_NAME,
             ZohoOAuthConstants::PERSISTENCE_HANDLER_CLASS_NAME,
             ZohoOAuthConstants::HOST_ADDRESS
         );
